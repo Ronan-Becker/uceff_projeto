@@ -4,7 +4,6 @@ app = Flask(__name__)
 import json
 import ast
 import os
-import mysql.connector
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ADMIN"
