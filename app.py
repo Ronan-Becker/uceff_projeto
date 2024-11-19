@@ -52,7 +52,8 @@ def login():
                 return redirect("/adm")
             
             if usuario["nome"] == nome and usuario["senha"] == senha:
-                return render_template("usuarios.html")
+                logado = True
+                return redirect("/usuarios")
             
             if cont >= len(usuarios):
                 flash("USUÁRIO INVÁLIDO!")
@@ -108,6 +109,7 @@ def upload():
     arquivo = request.files.get("documento")
     nome_arquivo = arquivo.filename.replace(" ","_")
     arquivo.save(os.path.join("arquivos", nome_arquivo))
+
     flash("Arquivo Salvo!")
     return redirect("/adm")
 
