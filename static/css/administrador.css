@@ -1,4 +1,11 @@
+@charset "UTF-8";
 @import url(../css/home.css);
+
+main {
+    display: flex;
+    justify-content: space-around;
+    width: 200px;
+}
 
 .titulo{
     backdrop-filter: blur(15px);
@@ -9,15 +16,8 @@
 
 }
 
-div#form_fundo{
-    margin: 2% 50% 5% 5%;
-    position: absolute;
-
-}
 
 div#form_fundo.listaUsuarios{
-    margin: 5% 5% 5% 52%;
-    position: relative;
     opacity: .9;
     border-radius: 25px;
 }
@@ -30,9 +30,4 @@ div#form_frente.listaUsuarios{
     height: 180px;
 }
 
-div#form_fundo.arquivos{
-text-align: center;
-font-weight: bold;
-font-size: 22px;
-margin: 5% 10% 10% 23%;
-}
+

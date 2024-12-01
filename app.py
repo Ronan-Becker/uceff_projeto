@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect, request, flash, send_from_directory
+from flask import Flask, render_template, redirect, request, flash, send_from_directory, jsonify
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 app = Flask(__name__)
 
 import json
@@ -34,6 +36,23 @@ def usuarios():
         return render_template("usuarios.html", arquivos = arquivo)
     else:
         return redirect("/")
+    
+limitador = Limiter(
+    get_remote_address,
+        app = app,
+        default_limits = ["5 per minute"],
+        storage_uri = "memory://"
+    )
+
+@app.errorhandler(429)
+def ratelimit_handler(_):
+        body = {
+            "errors": [{
+                "title": "Too Many Requests",
+                "detail": "Muitas requisicoes erradas, tente novamente mais tarde."
+            }]
+        }
+        return jsonify(body), 429
 
 @app.route("/login", methods=["POST"])
 def login():

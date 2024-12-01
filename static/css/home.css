@@ -17,6 +17,7 @@ div.flash_alerta{
     text-align: center;
 }
 
+
 div#form_fundo{
     backdrop-filter: blur(20px);
     opacity: .9;
@@ -37,6 +38,7 @@ div#form_frente{
     box-shadow: 2px 5px 5px black;
     padding: 30px;
 }
+
 
 label{
     font-size: 25px;
