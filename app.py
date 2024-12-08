@@ -12,12 +12,14 @@ app.config["SECRET_KEY"] = "ADMIN"
 
 logado = False
 
+#redirecionar para a página de inicial de login
 @app.route("/")
 def home():
     global logado
     logado = False
     return render_template("login.html")
 
+#redirecionar para a página do administrador
 @app.route("/adm")
 def adm():
     if logado == True:
@@ -26,7 +28,8 @@ def adm():
         return render_template("admin.html", usuarios = usuarios)
     if logado == False:
         return redirect("/")
-    
+
+#se tiver arquivos para baixar redireciona para página de download, se não, para a página inicial  
 @app.route("/usuarios")
 def usuarios():
     if logado == True:
@@ -36,7 +39,8 @@ def usuarios():
         return render_template("usuarios.html", arquivos = arquivo)
     else:
         return redirect("/")
-    
+
+#limitador de tentativas de acesso
 limitador = Limiter(
     get_remote_address,
         app = app,
@@ -44,6 +48,7 @@ limitador = Limiter(
         storage_uri = "memory://"
     )
 
+#retorno do erro de várias tentativas para os usuários
 @app.errorhandler(429)
 def ratelimit_handler(_):
         body = {
@@ -54,6 +59,7 @@ def ratelimit_handler(_):
         }
         return jsonify(body), 429
 
+#distinguir o login de cada usuário
 @app.route("/login", methods=["POST"])
 def login():
     global logado
@@ -78,7 +84,7 @@ def login():
                 flash("USUÁRIO INVÁLIDO!")
                 return redirect("/")
 
-
+#adicionar usuário ao banco de dados
 @app.route("/cadastrarUsuario", methods=["POST"])
 def cadastrarUsuario():
     global logado
@@ -102,6 +108,7 @@ def cadastrarUsuario():
     flash(F"{nome} CADASTRADO(A)!")   
     return redirect("/adm")
 
+#remover usuários do banco de dados
 @app.route("/excluirUsuario", methods=["POST"])
 def excluirUsuario():
     global logado
@@ -120,6 +127,7 @@ def excluirUsuario():
     flash(F"{nome} EXCLUÍDO!")
     return redirect("/adm")
 
+#upload dos arquivos
 @app.route("/upload", methods=["POST"])
 def upload():
     global logado 
@@ -132,6 +140,7 @@ def upload():
     flash("Arquivo Salvo!")
     return redirect("/adm")
 
+#seleção de arquivos para o usuário baixar
 @app.route("/download", methods=["POST"])
 def download():
     nomeArquivo = request.form.get("arquivosParaDownload")
